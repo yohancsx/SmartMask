@@ -1,1 +1,1 @@
-Arduino Code for the smart Mas - using the Nano Sense BLE 33
+Arduino Code for the Smart Mask - using the Nano Sense BLE 33
