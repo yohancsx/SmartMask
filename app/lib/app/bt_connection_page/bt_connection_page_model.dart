@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:smart_mask/app/home_page/home_page.dart';
+import 'package:smart_mask/app/home_page/home_page_wrapper.dart';
 import 'package:smart_mask/common/app_style.dart';
 import 'package:smart_mask/services/bluetooth_mask_service.dart';
 
