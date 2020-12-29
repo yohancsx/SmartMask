@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_mask/app/bt_connection_page/bt_connection_page_wrapper.dart';
+import 'package:smart_mask/app/splash_page.dart';
 import 'package:smart_mask/services/bluetooth_mask_service.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class SmartMaskApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: BluetoothConnectionPageWrapper(),
+        home: SplashPage(),
       ),
     );
   }

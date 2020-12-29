@@ -19,12 +19,16 @@ class BluetoothMaskService {
     if (connectedDevice.isEmpty) {
       return false;
     } else {
+      //if we are connected but don't have a current smart mask device
+      if (smartMaskDevice == null) {
+        smartMaskDevice = connectedDevice[0];
+      }
       return true;
     }
   }
 
   ///determine if bluetooth is avaiable and enabled, if so set the flags
-  Future<bool> determineBluetoothStatus() async {
+  Future<bool> determineBluetoothDeviceStatus() async {
     bool isAvailable = await flutterBlue.isAvailable;
     bool isOn = await flutterBlue.isOn;
     if (isOn && isAvailable) {
@@ -42,10 +46,14 @@ class BluetoothMaskService {
     flutterBlue.startScan(timeout: Duration(seconds: 4));
 
     //listen to scan results
-    var subscription = flutterBlue.scanResults.listen((results) {
+    flutterBlue.scanResults.listen((results) {
       //add results to list, but only if they are not duplicates
       //and if they have a name
       for (ScanResult r in results) {
+        //print a bunch of data for debugging purposes
+        print(r.device.id);
+        print(r.device.name);
+        print(r.device.type);
         //check if list does not have the device already
         bool alreadyContained = false;
         scanResults.forEach((result) {
@@ -55,7 +63,7 @@ class BluetoothMaskService {
         });
 
         //if the device has a name and is not already contained
-        if (r.device.name != null && !alreadyContained) {
+        if (r.device.name != null && r.device.name != "" && !alreadyContained) {
           print('${r.device.name} found! rssi: ${r.rssi}');
           scanResults.add(r);
         }
@@ -70,9 +78,22 @@ class BluetoothMaskService {
 
   ///connect to the device
   Future<bool> connectToDevice(BluetoothDevice d) async {
-    print("connecting to ${d.name}");
-    d.connect();
+    //check if we are already conected
     if (await isConnectedToBluetooth()) {
+      return true;
+    }
+
+    print("connecting to ${d.name}");
+    try {
+      await d.connect(timeout: Duration(seconds: 5), autoConnect: false);
+    } catch (exception) {
+      print("failed to connect");
+    }
+
+    //if connected return true, else return false
+    if (await isConnectedToBluetooth()) {
+      print("connected to ${d.name}");
+      smartMaskDevice = d;
       return true;
     } else {
       return false;
@@ -82,27 +103,61 @@ class BluetoothMaskService {
   ///disconnect from the device
   Future<bool> disconnectFromDevice(BluetoothDevice d) async {
     print("disconnecting from ${d.name}");
-    d.disconnect();
+    await d.disconnect();
     if (await isConnectedToBluetooth()) {
       return false;
     } else {
+      smartMaskDevice = null;
       return true;
     }
   }
 
-  ///fetches the correct bluetooth service, and returns a stream of byte data
-  ///in this case the mask pressure
-  Future<Stream<dynamic>> getBluetoothDataStream(BluetoothDevice d) async {
+  ///check if the device is a smart mask
+  bool checkIfSmartMaskDevice(BluetoothDevice d) {
+    return true;
+  }
+
+  ///from the currently connected device
+  ///gets the correct stream of sensor data
+  Future<Stream<dynamic>> getBluetoothDataStream() async {
+    ///data stream to return
     Stream<dynamic> sensorDataStream;
-    //get bluetooth services
-    List<BluetoothService> services = await d.discoverServices();
-    //find the correct service to listen to
-    services.forEach((service) {
-      print(service.uuid.toString());
-    });
 
-    //return the stream to listen to
+    ///the characteristic for pressure data
+    BluetoothCharacteristic pressureData;
 
-    return null;
+    if (await isConnectedToBluetooth()) {
+      print("yeee");
+
+      //discover services of the device
+      List<BluetoothService> services =
+          await smartMaskDevice.discoverServices();
+
+      //find the correct service to listen to based on the string
+      services.forEach((service) {
+        ///get the corect service
+        if (service.uuid.toString() == "590d65c7-3a0a-4023-a05a-6aaf2f22441c") {
+          service.characteristics.forEach((characteristic) {
+            //get the correct characteristic from ther service
+            if (characteristic.uuid.toString() ==
+                "0000000b-0000-1000-8000-00805f9b34fb") {
+              pressureData = characteristic;
+            }
+          });
+        }
+      });
+
+      //if we found the correct characteristic, listen to it
+      if (pressureData != null) {
+        await pressureData.setNotifyValue(true);
+        sensorDataStream = pressureData.value;
+      }
+
+      //return the stream to listen to
+      return sensorDataStream;
+    } else {
+      print("not connected to a device");
+      return null;
+    }
   }
 }

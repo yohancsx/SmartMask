@@ -104,6 +104,8 @@ class BluetoothConnectionPageModel extends ChangeNotifier {
       return value;
     });
 
+    print(deviceConnected.toString());
+
     //if connected navigate to home page
     if (deviceConnected) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -161,10 +163,13 @@ class BluetoothConnectionPageModel extends ChangeNotifier {
           color: AppStyle.mainLightColor,
           child: ListTile(
             trailing: FlatButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              color: AppStyle.secondaryColor,
               onPressed: () => connectToDevice(result.device, context),
               child: Text(
                 "Connect!",
-                style: TextStyle(color: Colors.white, fontSize: 15.0),
+                style: TextStyle(color: Colors.black, fontSize: 15.0),
               ),
             ),
             title: Text(
