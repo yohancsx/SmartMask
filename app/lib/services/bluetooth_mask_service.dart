@@ -13,7 +13,10 @@ class BluetoothMaskService {
   ///the connected bluetooth device
   BluetoothDevice smartMaskDevice;
 
-  ///determine if we are connected to bluetooth
+  //are we connected to bluetooth?
+  bool bluetoothConnected;
+
+  ///determine if we are connected to bluetooth, as a one off function
   Future<bool> isConnectedToBluetooth() async {
     List<BluetoothDevice> connectedDevice = await flutterBlue.connectedDevices;
     if (connectedDevice.isEmpty) {
@@ -88,6 +91,7 @@ class BluetoothMaskService {
       await d.connect(timeout: Duration(seconds: 5), autoConnect: false);
     } catch (exception) {
       print("failed to connect");
+      return false;
     }
 
     //if connected return true, else return false
@@ -153,8 +157,9 @@ class BluetoothMaskService {
         sensorDataStream = pressureData.value;
       }
 
-      //return the stream to listen to
-      return sensorDataStream;
+      //return the stream to listen to, make sure it is broadcast so it can have multiple
+      //listeners
+      return sensorDataStream.asBroadcastStream();
     } else {
       print("not connected to a device");
       return null;

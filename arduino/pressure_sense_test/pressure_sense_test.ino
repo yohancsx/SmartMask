@@ -60,6 +60,7 @@ Nano33BLEPressureData pressureData;
  * application you might want to transfer ints directly.
  */
 BLEService BLESensors("590d65c7-3a0a-4023-a05a-6aaf2f22441c");
+
 BLECharacteristic pressureBLE("000B", BLERead | BLENotify | BLEBroadcast, BLE_BUFFER_SIZES);
 
 /* Common global buffer will be used to write to the BLE characteristics. */

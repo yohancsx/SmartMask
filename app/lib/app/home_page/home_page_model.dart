@@ -10,11 +10,29 @@ class HomePageModel extends ChangeNotifier {
   ///the pressure data stream
   Stream<List<int>> dataStream;
 
-  bool pressed = false;
+  //have we begun the session
+  bool sessionStarted = false;
 
-  void onPressed() async {
-    pressed = true;
-    print("getting the data stream");
+  //the pressure data to show
+  List<double> pressureData = [];
+
+  ///The page controller for the page view
+  PageController controller = PageController(initialPage: 0);
+
+  ///Function to switch between pages of the app
+  ///which actually do not use the navigator
+  void switchPage(int pageNum) {
+    controller.animateToPage(
+      pageNum,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 700),
+    );
+  }
+
+  ///begins the bluetooth mask session
+  void onBeginSession(BuildContext context) async {
+    sessionStarted = true;
+    //get the data stream
     dataStream = await maskService.getBluetoothDataStream();
     notifyListeners();
   }

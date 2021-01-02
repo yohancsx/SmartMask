@@ -108,7 +108,7 @@ class BluetoothConnectionPageModel extends ChangeNotifier {
 
     //if connected navigate to home page
     if (deviceConnected) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
+      Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => HomePageWrapper()));
     } else {
       //else show dialouge that you failed
