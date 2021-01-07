@@ -63,12 +63,14 @@ void loop() {
       lastRead = millis();
 
       pressurePascals = (pressureMultiplyer * BARO.readPressure(KILOPASCAL)) - pressureRawOffset; //displays pressure in Pascals
-      Serial.println(pressurePascals, 6 ); //last number after the comma is for number of decimal points (was 6 originally)    //Comment for cough sensing only
+      Serial.print(pressurePascals, 6 ); 
+      Serial.println(","); 
+      //last number after the comma is for number of decimal points (was 6 originally)    //Comment for cough sensing only
       //    listThePressure();
 
       pressureSlope = (pressurePascals - lastPressureRead)/timeBetweenPressureReads;   //the pressure slop (or differential pressure)
-          Serial.print("slope = ");
-          Serial.println(pressureSlope, 6);
+          //Serial.print("slope = ");
+          //Serial.println(pressureSlope, 6);
       lastPressureRead = pressurePascals;
 
       //  // Detect Coughing

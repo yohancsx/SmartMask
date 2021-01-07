@@ -67,7 +67,7 @@ class HomePageWrapper extends StatelessWidget {
                             builder: (BuildContext context) =>
                                 BluetoothConnectionPageWrapper())),
                     child: Text(
-                      "Ok",
+                      "OK",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 40.0,

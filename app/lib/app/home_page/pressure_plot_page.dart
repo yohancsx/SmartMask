@@ -85,7 +85,7 @@ class PressurePlotPage extends StatelessWidget {
                     minX: 0,
                     maxX: 160,
                     minY: 99.5,
-                    maxY: 100,
+                    maxY: 100.5,
                     lineBarsData: [
                       LineChartBarData(
                         spots: spots,
