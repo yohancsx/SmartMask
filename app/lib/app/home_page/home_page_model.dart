@@ -7,8 +7,14 @@ class HomePageModel extends ChangeNotifier {
   ///the bluetooth mask service class
   BluetoothMaskService maskService;
 
+  //list of data streams
+  List<Stream<dynamic>> dataStreams;
+
   ///the pressure data stream
-  Stream<List<int>> dataStream;
+  Stream<List<int>> pressureDataStream;
+
+  ///the proximity data stream
+  Stream<List<int>> proximityDataStream;
 
   //have we begun the session
   bool sessionStarted = false;
@@ -32,8 +38,13 @@ class HomePageModel extends ChangeNotifier {
   ///begins the bluetooth mask session
   void onBeginSession(BuildContext context) async {
     sessionStarted = true;
-    //get the data stream
-    dataStream = await maskService.getBluetoothDataStream();
+    //get the data streams
+    dataStreams = await maskService.getBluetoothDataStream();
+
+    //set the streams
+    pressureDataStream = dataStreams[0];
+    proximityDataStream = dataStreams[1];
+
     notifyListeners();
   }
 }

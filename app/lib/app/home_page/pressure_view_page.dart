@@ -17,13 +17,27 @@ class PressureViewPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           StreamBuilder(
-            stream: pageModel.dataStream,
+            stream: pageModel.proximityDataStream,
             initialData: [0, 0, 0, 0, 0, 0],
             builder: (context, snapshot) {
               return Container(
                 alignment: Alignment.center,
                 child: Text(
-                  String.fromCharCodes(snapshot.data),
+                  "Distance: " + String.fromCharCodes(snapshot.data),
+                  style: TextStyle(color: Colors.black, fontSize: 50.0),
+                ),
+              );
+            },
+          ),
+          SizedBox(height: 50.0),
+          StreamBuilder(
+            stream: pageModel.pressureDataStream,
+            initialData: [0, 0, 0, 0, 0, 0],
+            builder: (context, snapshot) {
+              return Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "Pressure: " + String.fromCharCodes(snapshot.data),
                   style: TextStyle(color: Colors.black, fontSize: 50.0),
                 ),
               );

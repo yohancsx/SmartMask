@@ -25,12 +25,6 @@ double pressurePascals;
 //the proximity
 int proximity;
 
-//pressure multiplier
-double pressureMultiplier = 1000; 
-
-//raw pressure offset(hardcoded for now), to subtract from read pressure
-double pressureRawOffset = 99000;
-
 //an array of 400 pressure values to hold the most recent pressure readings
 double pressureList[400];
 
@@ -53,7 +47,7 @@ void loop() {
   //pressure read
   if (millis() - lastPressureRead >= timeBetweenPressureReads) {
     lastPressureRead = millis();
-    pressurePascals = (pressureMultiplyer * BARO.readPressure(KILOPASCAL)) - pressureRawOffset;
+    pressurePascals =  BARO.readPressure(KILOPASCAL);
   }
       
   //proximity read
@@ -63,6 +57,8 @@ void loop() {
       proximity = APDS.readProximity();
     }
   }
+
+  Serial.println(pressurePascals);
 
   //push the pressure and proximity data to the bluetooth
   sendBleData(pressurePascals,proximity);

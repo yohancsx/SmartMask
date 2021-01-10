@@ -20,7 +20,7 @@ class PressurePlotPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<double>(
       initialData: 100.0,
-      stream: pageModel.dataStream
+      stream: pageModel.pressureDataStream
           .map((event) => double.parse(String.fromCharCodes(event))),
       builder: (context, snapshot) {
         if (pageModel.pressureData.length <= 150) {
@@ -84,8 +84,8 @@ class PressurePlotPage extends StatelessWidget {
                             color: const Color(0xff37434d), width: 1)),
                     minX: 0,
                     maxX: 160,
-                    minY: 99.5,
-                    maxY: 100.5,
+                    minY: 100,
+                    maxY: 101,
                     lineBarsData: [
                       LineChartBarData(
                         spots: spots,

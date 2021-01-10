@@ -123,12 +123,17 @@ class BluetoothMaskService {
 
   ///from the currently connected device
   ///gets the correct stream of sensor data
-  Future<Stream<dynamic>> getBluetoothDataStream() async {
-    ///data stream to return
-    Stream<dynamic> sensorDataStream;
+  Future<List<Stream<dynamic>>> getBluetoothDataStream() async {
+    ///data streams to return
+    Stream<dynamic> pressureDataStream;
+
+    Stream<dynamic> proximityDataStream;
 
     ///the characteristic for pressure data
     BluetoothCharacteristic pressureData;
+
+    ///the characteristic for proximity data
+    BluetoothCharacteristic proximityData;
 
     if (await isConnectedToBluetooth()) {
       print("yeee");
@@ -142,24 +147,39 @@ class BluetoothMaskService {
         ///get the corect service
         if (service.uuid.toString() == "590d65c7-3a0a-4023-a05a-6aaf2f22441c") {
           service.characteristics.forEach((characteristic) {
-            //get the correct characteristic from ther service
+            //get the correct characteristic from the service
+            print("******************************************************");
+            print(characteristic.uuid.toString());
             if (characteristic.uuid.toString() ==
                 "0000000b-0000-1000-8000-00805f9b34fb") {
               pressureData = characteristic;
+            }
+
+            if (characteristic.uuid.toString() ==
+                "0000000c-0000-1000-8000-00805f9b34fb") {
+              proximityData = characteristic;
             }
           });
         }
       });
 
-      //if we found the correct characteristic, listen to it
+      //if we found the correct characteristics, listen to them
       if (pressureData != null) {
-        await pressureData.setNotifyValue(true);
-        sensorDataStream = pressureData.value;
+        //await pressureData.setNotifyValue(true);
+        pressureDataStream = pressureData.value;
+      }
+
+      if (proximityData != null) {
+        //await proximityData.setNotifyValue(true);
+        proximityDataStream = proximityData.value;
       }
 
       //return the stream to listen to, make sure it is broadcast so it can have multiple
       //listeners
-      return sensorDataStream.asBroadcastStream();
+      return [
+        pressureDataStream.asBroadcastStream(),
+        proximityDataStream.asBroadcastStream()
+      ];
     } else {
       print("not connected to a device");
       return null;

@@ -26,7 +26,7 @@ BLECharacteristic proximityBLE("000C", BLERead | BLENotify | BLEBroadcast, BLE_B
 char blePressureBuffer[BLE_BUFFER_SIZES];
 
 //ble buffer for proximity
-char blePressureBuffer[BLE_BUFFER_SIZES];
+char bleProximityBuffer[BLE_BUFFER_SIZES];
 
 //initializes all the BLE sensors
 void initializeBleSensors(){
@@ -54,7 +54,7 @@ void sendBleData(double pressureRead, int proximityRead){
     int writeLength;
   
     //if we are connected
-    while(central.connected()){
+    if(central.connected()){
           
       //convert pressure data and send
       writeLength = sprintf(blePressureBuffer, "%f", (float)pressureRead );
