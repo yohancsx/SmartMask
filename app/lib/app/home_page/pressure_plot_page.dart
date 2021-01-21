@@ -84,8 +84,8 @@ class PressurePlotPage extends StatelessWidget {
                             color: const Color(0xff37434d), width: 1)),
                     minX: 0,
                     maxX: 160,
-                    minY: 100,
-                    maxY: 101,
+                    minY: 99,
+                    maxY: 100,
                     lineBarsData: [
                       LineChartBarData(
                         spots: spots,

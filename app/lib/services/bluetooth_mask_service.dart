@@ -165,12 +165,12 @@ class BluetoothMaskService {
 
       //if we found the correct characteristics, listen to them
       if (pressureData != null) {
-        //await pressureData.setNotifyValue(true);
+        await pressureData.setNotifyValue(true);
         pressureDataStream = pressureData.value;
       }
 
       if (proximityData != null) {
-        //await proximityData.setNotifyValue(true);
+        await proximityData.setNotifyValue(true);
         proximityDataStream = proximityData.value;
       }
 

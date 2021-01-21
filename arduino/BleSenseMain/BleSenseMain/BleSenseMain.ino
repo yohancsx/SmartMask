@@ -34,6 +34,7 @@ int proximityList[100];
 
 
 void setup() {
+  Serial.begin(115200);
   //initialize the proximity sensor
   if (!APDS.begin()) {
     Serial.println("Error initializing APDS9960 sensor!");
@@ -59,6 +60,7 @@ void loop() {
   }
 
   Serial.println(pressurePascals);
+  Serial.println(proximity);
 
   //push the pressure and proximity data to the bluetooth
   sendBleData(pressurePascals,proximity);

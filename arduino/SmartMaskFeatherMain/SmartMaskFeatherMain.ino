@@ -56,6 +56,6 @@ void loop() {
 }
 
 //change the led color for indication purposes??
-void changeLEdColor(){
+void changeLEDColor(){
   
 }
