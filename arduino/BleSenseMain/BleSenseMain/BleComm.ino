@@ -1,5 +1,4 @@
 #include <ArduinoBLE.h>
-#include "Nano33BLEPressure.h"
 
 //bluetooth buffer size
 #define BLE_BUFFER_SIZES             20
@@ -9,9 +8,6 @@
 
 //the local device name
 #define BLE_LOCAL_NAME                "BleSmartMask"
-
-//where we store the pressure data
-Nano33BLEPressureData pressureData;
 
 //set up the basic ble service for the sensors
 BLEService BLESensors("590d65c7-3a0a-4023-a05a-6aaf2f22441c");
@@ -48,7 +44,7 @@ void initializeBleSensors(){
 }
 
 
-void sendBleData(double pressureRead, int proximityRead){
+void sendBleData(float pressureRead, float proximityRead){
   BLEDevice central = BLE.central();
   if(central){
     int writeLength;
@@ -57,11 +53,11 @@ void sendBleData(double pressureRead, int proximityRead){
     if(central.connected()){
           
       //convert pressure data and send
-      writeLength = sprintf(blePressureBuffer, "%f", (float)pressureRead );
+      writeLength = sprintf(blePressureBuffer, "%f", pressureRead );
       pressureBLE.writeValue(blePressureBuffer, writeLength);
 
       //convert proximity data and send
-      writeLength = sprintf(bleProximityBuffer, "%f", (float)proximityRead );
+      writeLength = sprintf(bleProximityBuffer, "%f", proximityRead );
       proximityBLE.writeValue(bleProximityBuffer, writeLength);
     }
   }
