@@ -125,11 +125,11 @@ void loop() {
   }
 
   //print values for debugging
-  //Serial.print(pressurePascals);
-  //Serial.print(",");
-  //Serial.print(proximity);
-  //Serial.print(",");
-  //Serial.println(audioLevel);
+  Serial.print(pressurePascals);
+  Serial.print(",");
+  Serial.print(proximity);
+  Serial.print(",");
+  Serial.println(audioLevel);
   
   //add value to pressure array, by copying things in
   //then adding the value

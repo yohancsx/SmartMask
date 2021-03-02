@@ -22,5 +22,4 @@ bool initSDCard(String fileName, File myFile){
 //close the SD card
 bool closeSdCard(File myFile){
   myFile.close();
-  Serial.println("done.");
 }

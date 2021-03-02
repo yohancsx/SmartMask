@@ -23,7 +23,11 @@ void setup(){
   pinMode(BLUE, OUTPUT);
   pinMode(GREEN, OUTPUT);
   pinMode(LED_PWR, OUTPUT);
+
+  //set to red
   digitalWrite(RED, HIGH);
+  digitalWrite(BLUE, LOW);
+  digitalWrite(GREEN, LOW);
   
   //initialize the sensors
   initializeAllSensors();
@@ -39,17 +43,152 @@ void setup(){
     while(1);
   }
 
-  //wait for the user
-  delay(10000);
+  //wait for the user (10s)
+  delay(10*1000);
 
-  //set the led to be on and blue in color
+  //set the led to be on and green in color
   digitalWrite(RED, LOW);
-  digitalWrite(BLUE, HIGH);
-  //change
+  digitalWrite(BLUE, LOW);
+  digitalWrite(GREEN, HIGH);
+
+  //extra delay for 5s
+  delay(5*1000);
   
 }
 
 //collect some data, then write it to the SD card, make sure to delay properly for the breathing
 void loop(){
+  //the float for the timer value
+  unsigned long startTime = millis();
+  //**************************************************************************************************************//
+  //collect data for breathing for 30s
+  while((millis() - startTime) < 30*1000){
+    takeSensorReadings();
+    myFile.print(pressurePascals);
+    myFile.print(",");
+    myFile.print(proximity);
+    myFile.print(",");
+    myFile.print(audioLevel);
+    myFile.print(",");
+    myFile.println(0);
+    //tiny delay
+    delay(10);
+    
+  }
+  
+  //reset the timer, and wait, while changing the colors of the LED to blue for wait
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, HIGH);
+  digitalWrite(GREEN, LOW);
+  delay(5*1000);
+  startTime = millis();
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, LOW);
+  digitalWrite(GREEN, HIGH);
+  
+  //**************************************************************************************************************//
+  //collect coughing data for ten seconds
+  while((millis() - startTime) < 10*1000){
+    takeSensorReadings();
+    myFile.print(pressurePascals);
+    myFile.print(",");
+    myFile.print(proximity);
+    myFile.print(",");
+    myFile.print(audioLevel);
+    myFile.print(",");
+    myFile.println(1);
+    //tiny delay
+    delay(10);
+  }
+
+  //reset the timer, and wait, while changing the colors of the LED to blue for wait
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, HIGH);
+  digitalWrite(GREEN, LOW);
+  delay(5*1000);
+  startTime = millis();
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, LOW);
+  digitalWrite(GREEN, HIGH);
+  
+  //**************************************************************************************************************//
+  //collect talking data for 30 seconds
+  while((millis() - startTime) < 30*1000){
+    takeSensorReadings();
+    myFile.print(pressurePascals);
+    myFile.print(",");
+    myFile.print(proximity);
+    myFile.print(",");
+    myFile.print(audioLevel);
+    myFile.print(",");
+    myFile.println(2);
+    //tiny delay
+    delay(10);
+  }
+
+  //reset the timer, and wait, while changing the colors of the LED to blue for wait
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, HIGH);
+  digitalWrite(GREEN, LOW);
+  delay(5*1000);
+  startTime = millis();
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, LOW);
+  digitalWrite(GREEN, HIGH);
+  
+  //**************************************************************************************************************//
+  //collect coughing data for 10 seconds
+  while((millis() - startTime) < 10*1000){
+    takeSensorReadings();
+    myFile.print(pressurePascals);
+    myFile.print(",");
+    myFile.print(proximity);
+    myFile.print(",");
+    myFile.print(audioLevel);
+    myFile.print(",");
+    myFile.println(1);
+    //tiny delay
+    delay(10);
+  }
+
+  //reset the timer, and wait, while changing the colors of the LED to blue for wait
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, HIGH);
+  digitalWrite(GREEN, LOW);
+  delay(5*1000);
+  startTime = millis();
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, LOW);
+  digitalWrite(GREEN, HIGH);
+  
+  //**************************************************************************************************************//
+  //collect deep breathing data for 30 seconds
+  while((millis() - startTime) < 30*1000){
+    takeSensorReadings();
+    myFile.print(pressurePascals);
+    myFile.print(",");
+    myFile.print(proximity);
+    myFile.print(",");
+    myFile.print(audioLevel);
+    myFile.print(",");
+    myFile.println(3);
+    //tiny delay
+    delay(10);
+  }
+
+  
+  //reset the timer, and wait, while changing the colors of the LED to red for done
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, HIGH);
+  digitalWrite(GREEN, LOW);
+  //save the data
+  closeSdCard(myFile);
+  delay(5*1000);
+  //now we can turn off
+  startTime = millis();
+  digitalWrite(RED, HIGH);
+  digitalWrite(BLUE, LOW);
+  digitalWrite(GREEN, LOW);
+  delay(30*1000);
   
 }
