@@ -54,11 +54,11 @@ void sendBleData(float pressureRead, float proximityRead){
           
       //convert pressure data and send
       writeLength = sprintf(blePressureBuffer, "%f", pressureRead );
-      pressureBLE.writeValue(blePressureBuffer, writeLength);
+      pressureBLE.writeValue((int32_t)pressureRead);
 
       //convert proximity data and send
       writeLength = sprintf(bleProximityBuffer, "%f", proximityRead );
-      proximityBLE.writeValue(bleProximityBuffer, writeLength);
+      proximityBLE.writeValue((int32_t)proximityRead);
     }
   }
 }

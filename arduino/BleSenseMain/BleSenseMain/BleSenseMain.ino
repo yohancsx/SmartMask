@@ -159,6 +159,6 @@ void loop() {
 
 //classify some data using the classifier we have
 void classify() {
-    Serial.print("Predicted class: ");
-    Serial.println(classifySimpleTree(pressureList,audioList));
+    //Serial.print("Predicted class: ");
+    //Serial.println(classifySimpleTree(pressureList,audioList));
 }

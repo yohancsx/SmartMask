@@ -35,20 +35,7 @@ int timeBetweenMicReads = 10;
 //time which last Mic read happened
 unsigned long lastMicRead;
 
-//the pressure in pascals
-float pressurePascals;
 
-//the proximity
-float proximity;
-
-//the mic value
-int audioLevel;
-
-//the intermediate audio value
-int intermediateAudio;
-
-//the audio threshold
-int audioThresh = 10000;
 
 
 //initializes all the sensors
@@ -71,6 +58,7 @@ void initializeAllSensors(){
 
 //takes all the sensor readings, and updates the variables including the sensor data and buffer data
 void takeSensorReadings() {
+  
   //pressure read
   if (millis() - lastPressureRead >= timeBetweenPressureReads) {
   if(Pressure.pop(pressureData))
@@ -79,7 +67,9 @@ void takeSensorReadings() {
       lastPressureRead = millis();
     }
   }
-      
+  
+
+  
   //proximity read
   if (millis() - lastProximityRead >= timeBetweenProximityReads) {
     if(Proximity.pop(proximityData))
@@ -88,6 +78,7 @@ void takeSensorReadings() {
       lastProximityRead = millis();
     }
   }
+  
 
   //mic read
   if (millis() - lastMicRead >= timeBetweenMicReads) {
@@ -102,4 +93,5 @@ void takeSensorReadings() {
      }
     }
   }
+  
 }

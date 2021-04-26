@@ -1,6 +1,6 @@
 /**
  * simple classifiers ported by emlearn
- */
+
 
 #include "sonar.h"
  
@@ -29,6 +29,7 @@ int32_t classifySimpleTree(float* pressureList, float* audioList){
   }
 
   //make a prediction and return
-  int32_t predicted_class = sonar_predict(data, 400);
+  //int32_t predicted_class = sonar_predict(data, 400);
   return predicted_class;
  }
+ **/
