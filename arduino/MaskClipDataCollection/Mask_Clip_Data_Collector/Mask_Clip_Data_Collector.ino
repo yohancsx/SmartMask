@@ -58,7 +58,10 @@ void loop(){
   Serial.println("SD initialization done.");
   
   //open the file
-  myFile = SD.open("mdata.txt", FILE_WRITE);
+  myFile = SD.open("mdata.csv", FILE_WRITE);
+
+  //print thedata delimiter
+  myFile.println("-1,-1,-1,-1");
  
   //extra delay for 5s
   delay(5*1000);
@@ -70,9 +73,9 @@ void loop(){
   Serial.println("collecting breathing data for 30s");
   while((millis() - startTime) < 30*1000){
     takeSensorReadings();
-    myFile.print(String(pressurePascals));
+    myFile.print(pressurePascals);
     myFile.print(",");
-    myFile.print(String(proximity));
+    myFile.print(proximity);
     myFile.print(",");
     myFile.print(audioLevel);
     myFile.print(",");
@@ -147,8 +150,8 @@ void loop(){
   startTime = millis();
   
   //**************************************************************************************************************//
-  //collect deep breathing data for 30 seconds
-  Serial.println("collecting deep breathing data for 30s");
+  //collect heavy breathing data for 30 seconds
+  Serial.println("collecting heavy breathing data for 30s");
   while((millis() - startTime) < 30*1000){
     takeSensorReadings();
     myFile.print(pressurePascals);
@@ -161,13 +164,54 @@ void loop(){
     //tiny delay
     delay(10);
   }
+
+  Serial.println("pausing");
+  delay(5*1000);
+  startTime = millis();
+
+  //**************************************************************************************************************//
+  //collect coughing data for 10 seconds
+  Serial.println("collecting coughing data for 10s");
+  while((millis() - startTime) < 10*1000){
+    takeSensorReadings();
+    myFile.print(pressurePascals);
+    myFile.print(",");
+    myFile.print(proximity);
+    myFile.print(",");
+    myFile.print(audioLevel);
+    myFile.print(",");
+    myFile.println(1);
+    //tiny delay
+    delay(10);
+  }
+
+  Serial.println("pausing");
+  delay(5*1000);
+  startTime = millis();
+
+
+  //**************************************************************************************************************//
+  //collect deep breathing data for 30 seconds
+  Serial.println("collecting deep breathing data for 30s");
+  while((millis() - startTime) < 30*1000){
+    takeSensorReadings();
+    myFile.print(pressurePascals);
+    myFile.print(",");
+    myFile.print(proximity);
+    myFile.print(",");
+    myFile.print(audioLevel);
+    myFile.print(",");
+    myFile.println(4);
+    //tiny delay
+    delay(10);
+  }
   
   Serial.println("Please Wait");
   //save the data
   myFile.close();
   delay(30*1000);
   Serial.println("finished, please unplug the device");
-  delay(5*1000);
+  delay(30*1000);
   //now we can turn off
   startTime = millis();
  
