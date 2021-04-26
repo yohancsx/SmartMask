@@ -165,7 +165,7 @@ void loop(){
   Serial.println("Please Wait");
   //save the data
   myFile.close();
-  delay(240*1000);
+  delay(30*1000);
   Serial.println("finished, please unplug the device");
   delay(5*1000);
   //now we can turn off
