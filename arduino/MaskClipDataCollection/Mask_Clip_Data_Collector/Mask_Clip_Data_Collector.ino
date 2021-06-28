@@ -6,6 +6,12 @@
 #include <SPI.h>
 #include <SD.h>
 
+#define RED 22     
+#define BLUE 24     
+#define GREEN 23
+#define LED_PWR 25
+
+
 //the file to open and write to
 File myFile;
 
@@ -84,6 +90,9 @@ void loop(){
     delay(10);
     
   }
+  myFile.close();
+  myFile = SD.open("mdata.csv", FILE_WRITE);
+  
   
   Serial.println("pausing");
   delay(5*1000);
@@ -105,6 +114,9 @@ void loop(){
     delay(10);
   }
 
+  myFile.close();
+  myFile = SD.open("mdata.csv", FILE_WRITE);
+  
   Serial.println("pausing");
   delay(5*1000);
   startTime = millis();
@@ -125,6 +137,9 @@ void loop(){
     delay(10);
   }
 
+  myFile.close();
+  myFile = SD.open("mdata.csv", FILE_WRITE);
+
   Serial.println("pausing");
   delay(5*1000);
   startTime = millis();
@@ -144,6 +159,9 @@ void loop(){
     //tiny delay
     delay(10);
   }
+
+  myFile.close();
+  myFile = SD.open("mdata.csv", FILE_WRITE);
 
   Serial.println("pausing");
   delay(5*1000);
@@ -165,6 +183,9 @@ void loop(){
     delay(10);
   }
 
+  myFile.close();
+  myFile = SD.open("mdata.csv", FILE_WRITE);
+
   Serial.println("pausing");
   delay(5*1000);
   startTime = millis();
@@ -184,6 +205,9 @@ void loop(){
     //tiny delay
     delay(10);
   }
+
+  myFile.close();
+  myFile = SD.open("mdata.csv", FILE_WRITE);
 
   Serial.println("pausing");
   delay(5*1000);
@@ -211,10 +235,9 @@ void loop(){
   myFile.close();
   delay(30*1000);
   Serial.println("finished, please unplug the device");
-  delay(30*1000);
   //now we can turn off
-  startTime = millis();
  
   delay(30*1000);
-  
+  while(1);
+ 
 }
